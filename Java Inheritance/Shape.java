@@ -13,8 +13,9 @@ public class Main{
 
     public static void main(String args[]){
 
-        Rectangle r1 = new Rectangle(10,5);
+        Rectangle r1 = new Rectangle(10,10);
         System.out.println(r1.getArea());
+        System.out.println(r1.checkSquare());
     }
     
 }
@@ -22,11 +23,13 @@ class Shape{
 
     private double height;
     private double width;
+    private String color;
     
-    public Shape(double height, double width){
+    public Shape(double height, double width, String color){
 
         this.height = height;
         this.width = width;
+        this.color = color;
         
     }
 
@@ -72,9 +75,16 @@ class Rectangle extends Shape{
         return area;
     }
 
-    public bool checkSquare(){
+    public boolean checkSquare(){
 
+        if(this.getHeight() == this.getWidth()){
 
+            return true;
+            
+        }else{
+
+            return false;
+        }
         
     }
     
