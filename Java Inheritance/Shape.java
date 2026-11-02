@@ -13,9 +13,29 @@ public class Main{
 
     public static void main(String args[]){
 
-        Rectangle r1 = new Rectangle(10,10);
+        Rectangle r1 = new Rectangle(10,10,"3D");
         System.out.println(r1.getArea());
         System.out.println(r1.checkSquare());
+        System.out.println("Is Shape 3D: "+r1.is3D());
+
+        Rectangle s1 = new Rectangle(10,10,"2D");
+        s1.changeColor();
+        System.out.println(s1.getColor());
+        System.out.println("Is Shape 3D: "+s1.is3D());
+
+        Rectangle s2 = new Rectangle(5,10,"3D");
+        s2.changeColor();
+        System.out.println(s2.getColor());
+
+        Rectangle r3 = new Rectangle(2,5,"3D");
+        System.out.println(r3.getHeight());
+        System.out.println(r3.getWidth());
+        r3.resizeShape(100,200);
+        System.out.println(r3.getHeight());
+        System.out.println(r3.getWidth());
+
+        Box b1 = new Box(5,5,2);
+        System.out.println("Volume: "+b1.calculateVolume());
     }
     
 }
@@ -24,19 +44,46 @@ class Shape{
     private double height;
     private double width;
     private String color;
+    private String dimensionType;
     
-    public Shape(double height, double width, String color){
+    public Shape(double height, double width){
 
         this.height = height;
         this.width = width;
-        this.color = color;
+        this.color = "Default";
+    }
+
+    public Shape(double height, double width, String dimensionType){
+
+        this.height = height;
+        this.width = width;
+        this.dimensionType = dimensionType;
+        this.color = "Default";
         
+    }
+
+    public boolean is3D(){
+
+        if(this.dimensionType.equals("3D")){
+
+            return true;
+            
+        }else{
+
+            return false;
+        }
+                
     }
 
     public double getArea(){
 
 
        return 0.0; 
+    }
+
+    public void resizeShape(double newHeight, double newWidth){
+
+        
     }
 
     public double getHeight(){
@@ -58,13 +105,23 @@ class Shape{
 
         this.width = newWidth;
     }
+
+    public String getColor(){
+
+        return this.color;    
+    }
+
+    public void setColor(String newColor){
+
+        this.color = newColor;
+    }
 }
 
 class Rectangle extends Shape{
 
-    public Rectangle(double height, double width){
+    public Rectangle(double height, double width, String dimensionType){
 
-        super(height,width);
+        super(height,width,dimensionType);
         
     }
 
@@ -87,5 +144,45 @@ class Rectangle extends Shape{
         }
         
     }
+
+    public void changeColor(){
+
+        if(this.checkSquare()){
+
+            this.setColor("Pink");
+        
+        }else{
+
+            this.setColor("Blue");
+            
+        }
+    }
+
+    @Override
+    public void resizeShape(double newHeight, double newWidth){
+
+        this.setHeight(newHeight);
+        this.setWidth(newWidth);
+        
+    }
+}
+
+class Box extends Shape{
+
+    private double depth;
+
+    public Box(double height, double width, double depth){
+
+        super(height,width,"3D");
+        this.depth = depth;
+    }
+
+    public double calculateVolume(){
+
+        double volume = this.getHeight() * this.getWidth() * this.depth;
+        
+        return volume;
+    }
+
     
 }
