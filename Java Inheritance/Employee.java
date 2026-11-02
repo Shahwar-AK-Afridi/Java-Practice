@@ -8,7 +8,11 @@
 ->Write a Java program where the "HRManager" subclass allows employees to request salary increments.
 
 ->Write a Java program where the "Employee" class includes a method to display employee hierarchy within the company.
+
+->An HR Manager needs to know which specific employees report to them.
 */
+import java.util.List;
+import java.util.ArrayList;
 
 public class Main{
 
@@ -33,6 +37,10 @@ public class Main{
         e2.setRank();
         System.out.println("Rank: "+e2.getRank());
         e2.displayHierarchy();
+
+        hm1.addEmployee(e1);
+        hm1.addEmployee(e2);
+        hm1.listTeam();
     }
 }
 
@@ -49,6 +57,7 @@ class Employee{
         this.overTime = 0.0;
         this.rate = 10;
         this.rank = 0;
+        
         
     }
 
@@ -111,10 +120,12 @@ class Employee{
 
 class HRManager extends Employee{
 
+    private ArrayList<Employee> managedEmployees;
+
     public HRManager(int salary){
 
         super(salary);
-
+        managedEmployees = new ArrayList<>();
         for(int i = 0; i < 3; i++) {
             this.setRank(); 
         }
@@ -126,11 +137,18 @@ class HRManager extends Employee{
         
     }
 
-    public void addEmployee(){
+    public void addEmployee(Employee emp){
 
-            System.out.println("Adding New Employees");
+        managedEmployees.add(emp);
     }
 
+    public void listTeam(){
+
+        for(Employee emp: managedEmployees){
+
+            System.out.println(emp);
+        }
+    }
     public void scheduleInterview(){
 
             System.out.println("Scheduling Interviews");        
