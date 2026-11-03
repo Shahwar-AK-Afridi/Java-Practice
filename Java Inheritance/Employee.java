@@ -10,6 +10,10 @@
 ->Write a Java program where the "Employee" class includes a method to display employee hierarchy within the company.
 
 ->An HR Manager needs to know which specific employees report to them.
+
+->Add a method inside the Employee class called calculateNetPayout(double overtimeHours). This should calculate the total gross pay (salary + calculateOverTime(overtimeHours)) and deduct a flat 10% tax.
+
+->By using a static counter variable inside the Employee class, the system will now automatically generate and assign a unique sequential identification number (starting at 1001) to every single employee or manager created, without you needing to pass it as an argument!
 */
 import java.util.List;
 import java.util.ArrayList;
@@ -41,6 +45,24 @@ public class Main{
         hm1.addEmployee(e1);
         hm1.addEmployee(e2);
         hm1.listTeam();
+
+        Employee e3 = new Employee(500);
+        System.out.println(e3.getEmployeeID());
+
+        Employee e4 = new Employee(5545);
+        System.out.println(e4.getEmployeeID());
+
+        Employee e5 = new Employee(5151);
+        System.out.println(e5.getEmployeeID());
+
+        HRManager hm2 = new HRManager(52486);
+        System.out.println(hm2.getEmployeeID());
+
+        HRManager asd = new HRManager(52486);
+        System.out.println(asd.getEmployeeID());
+
+        System.out.println(Employee.getIdCounter());
+        
     }
 }
 
@@ -50,6 +72,14 @@ class Employee{
     private double overTime;
     private double rate;
     private int rank;
+    private int employeeID;
+    
+    private static int counterID;
+
+    static{
+
+        counterID = 1000;
+    }
 
     public Employee(int salary){
 
@@ -57,13 +87,25 @@ class Employee{
         this.overTime = 0.0;
         this.rate = 10;
         this.rank = 0;
-        
+
+        counterID += 1;    
+        this.employeeID = counterID;
         
     }
+    @Override
+    public String toString(){
 
+        return "Employee Details [Salary:"+ this.salary +", Rank: "+ this.rank + "]";
+        
+    }
     public void work(){
 
         System.out.println("Working");
+    }
+
+    public static int getIdCounter(){
+
+        return Employee.counterID;
     }
 
     public int getSalary(){
@@ -92,6 +134,11 @@ class Employee{
         this.rank += 1;
     }
 
+    public int getEmployeeID(){
+
+        return this.employeeID;
+    }
+
     public void displayHierarchy(){
 
         if(this.rank == 0){
@@ -116,6 +163,14 @@ class Employee{
         
         return hours * this.rate;
     }
+
+    public double calculateNetPayout(double overTimeHours){
+
+        double totalSalary = this.salary + calculateOverTime(overTimeHours); 
+        double taxDeduction  = totalSalary * (10/100.0);
+        double netSalary = totalSalary - taxDeduction ;
+        return netSalary;
+    }
 }
 
 class HRManager extends Employee{
@@ -137,6 +192,15 @@ class HRManager extends Employee{
         
     }
 
+    @Override
+    public double calculateNetPayout(double overTimeHours){
+
+        double totalSalary = this.getSalary() + calculateOverTime(overTimeHours);
+        double taxDeduction = totalSalary * (20/100.0);
+        double netSalary = totalSalary - taxDeduction;
+        return netSalary;
+        
+    }
     public void addEmployee(Employee emp){
 
         managedEmployees.add(emp);
