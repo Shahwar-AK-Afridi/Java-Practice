@@ -19,7 +19,7 @@ public class Main{
         acc1.withdraw(500);
         System.out.println(acc1.getAccountBalance());
 
-        SavingsAccount acc2 = new SavingsAccount(2000);
+        SavingsAccount acc2 = new SavingsAccount(8000);
         System.out.println("Account Balance: "+acc2.getAccountBalance());
         System.out.println("Fixed Deposit Balance: "+acc2.getfixedDepositBalance());
         acc2.deposit(5000);
@@ -63,13 +63,51 @@ class BankAccount{
 
     public void deposit(double depositAmount){
 
+        if(depositAmount < 0){
+
+            System.out.println("Invalid Deposit Amount");
+            return;
+        }
+
+        if(suspiciousTransaction("Deposit",depositAmount)){
+            
+            return;
+        }
         
+        this.setAccountBalance(this.getAccountBalance() + depositAmount);
     }
 
     public void withdraw(double deductAmount){
+        
+        if(deductAmount <= 0){
 
-         double netAmount = this.getAccountBalance() - deductAmount;
-         this.setAccountBalance(netAmount);
+            System.out.println("Invalid Withdrawal Amount");
+            return;
+        }
+
+        if(suspiciousTransaction("Withdraw",deductAmount)){
+
+            return;
+        }
+        
+        double netAmount = this.getAccountBalance() - deductAmount;
+        this.setAccountBalance(netAmount);
+    }
+
+    public boolean suspiciousTransaction(String transactionType, double transactionAmount){
+
+        if(transactionType.equals("Deposit") && transactionAmount >= 20000){
+
+            System.out.println("Suspicious Deposit Detected!");
+            return true;
+        
+        }else if(transactionType.equals("Withdraw") && transactionAmount > this.getAccountBalance() * 0.5){
+
+            System.out.println("Suspicious Withdraw Detected!");
+            return true;
+        }
+
+        return false;
     }
 
     public double getAccountBalance(){
@@ -101,15 +139,35 @@ class BankAccount{
 
 class SavingsAccount extends BankAccount{
     
-    
+    private double interestRate = 0.05;
     
     public SavingsAccount(double accountBalance){
 
-        super(accountBalance);
+        super(accountBalance); //Calls parent constructor to initialize saving account object.
+        
+        if(accountBalance > 5000){
+
+            this.setAccountBalance(5000);
+            double remainingAmount = accountBalance - 5000;             
+            this.setfixedDepositBalance(remainingAmount);
+
+        }
     }
 
+    @Override
     public void withdraw(double deductAmount){
 
+        if(deductAmount <= 0){
+
+            System.out.println("Invalid Withdrawal Amount");
+            return;
+        }
+
+        if(suspiciousTransaction("Withdraw",deductAmount)){
+
+            return;
+        }
+        
         double netAmount = this.getAccountBalance() - deductAmount;
         
         if(netAmount < 100){
@@ -124,8 +182,20 @@ class SavingsAccount extends BankAccount{
         
     }
 
+    @Override
     public void deposit(double depositAmount){
 
+        if(depositAmount < 0){
+
+            System.out.println("Invalid Deposit Amount");
+            return;
+        }
+
+        if(suspiciousTransaction("Deposit",depositAmount)){
+
+            return;
+        }
+        
         if(this.getAccountBalance() == 5000){
 
             double newfixedAccountBalance = this.getfixedDepositBalance() + depositAmount;
@@ -162,5 +232,21 @@ class SavingsAccount extends BankAccount{
 
             
         }
+
+    public double getInterestRate(){
+
+        return this.interestRate;
+    }
+
+    public void setInterestRate(double newInterestRate){
+
+        this.interestRate = newInterestRate;
+    }
+
+    public double yearlyInterest(){
+
+        double totalInterest = (this.getAccountBalance() + this.getfixedDepositBalance())* this.getInterestRate();
+        return totalInterest;
+    }
     
 }
