@@ -18,6 +18,22 @@ public class Main{
         System.out.println(acc1.getAccountBalance());
         acc1.withdraw(500);
         System.out.println(acc1.getAccountBalance());
+
+        SavingsAccount acc2 = new SavingsAccount(2000);
+        System.out.println("Account Balance: "+acc2.getAccountBalance());
+        System.out.println("Fixed Deposit Balance: "+acc2.getfixedDepositBalance());
+        acc2.deposit(5000);
+        System.out.println("Account Balance: "+acc2.getAccountBalance());
+        System.out.println("Fixed Deposit Balance: "+acc2.getfixedDepositBalance());
+        acc2.deposit(6000);
+        System.out.println("Account Balance: "+acc2.getAccountBalance());
+        System.out.println("Fixed Deposit Balance: "+acc2.getfixedDepositBalance());
+        acc2.deposit(3000);
+        System.out.println("Account Balance: "+acc2.getAccountBalance());
+        System.out.println("Fixed Deposit Balance: "+acc2.getfixedDepositBalance());
+        acc2.deposit(5000);
+        System.out.println("Account Balance: "+acc2.getAccountBalance());
+        System.out.println("Fixed Deposit Balance: "+acc2.getfixedDepositBalance());
         
     }
 }
@@ -45,7 +61,7 @@ class BankAccount{
          
     }
 
-    public void deposit(){
+    public void deposit(double depositAmount){
 
         
     }
@@ -110,27 +126,25 @@ class SavingsAccount extends BankAccount{
 
     public void deposit(double depositAmount){
 
-        double netSalary = this.getAccountBalance() + depositAmount;
-    
         if(this.getAccountBalance() == 5000){
 
-            this.setfixedDepositBalance(depositAmount);
+            double newfixedAccountBalance = this.getfixedDepositBalance() + depositAmount;
+            this.setfixedDepositBalance(newfixedAccountBalance);
             
         }else if(this.getAccountBalance() < 5000){
-                 //3000                        //2000
+                                         
             double requiredAmount = 5000 - this.getAccountBalance();
-               //1000           //3000
+                          
             if(depositAmount > requiredAmount){
-                       //7000                   //10000          //3000
-                double availableAmount = depositAmount - requiredAmount;
-                      //3000              //10000        //7000
-                double remainingAmount = depositAmount - availableAmount;
-                                        //2000                  //3000
-                double newAccountBalance = this.getAccountBalance() + remainingAmount;
+
+                double newAccountBalance = this.getAccountBalance() + requiredAmount;
                 this.setAccountBalance(newAccountBalance);
-                
-                double newfixedAccountBalance = this.getfixedDepositBalance() + availableAmount;
+
+                double remainingDeposit = depositAmount - requiredAmount;
+
+                double newfixedAccountBalance = this.getfixedDepositBalance() + remainingDeposit;
                 this.setfixedDepositBalance(newfixedAccountBalance);
+                
             
             }else{
 
