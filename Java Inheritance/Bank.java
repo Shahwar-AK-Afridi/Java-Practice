@@ -8,6 +8,10 @@
 ->Write a Java program where the "SavingsAccount" subclass adds a method to calculate yearly interest.
 
 ->Write a Java program where the "BankAccount" class includes fraud detection for unusual transactions.
+
+->Create a new class called CurrentAccount that extends BankAccount.
+
+->
 */
 
 public class Main{
@@ -34,6 +38,13 @@ public class Main{
         acc2.deposit(5000);
         System.out.println("Account Balance: "+acc2.getAccountBalance());
         System.out.println("Fixed Deposit Balance: "+acc2.getfixedDepositBalance());
+
+        //Task 6 
+        CurrentAccount acc = new CurrentAccount(3000);
+
+        acc.withdraw(4000);
+        acc.withdraw(2000);
+        acc.withdraw(1000);
         
     }
 }
@@ -63,7 +74,7 @@ class BankAccount{
 
     public void deposit(double depositAmount){
 
-        if(depositAmount < 0){
+        if(depositAmount <= 0){
 
             System.out.println("Invalid Deposit Amount");
             return;
@@ -74,7 +85,8 @@ class BankAccount{
             return;
         }
         
-        this.setAccountBalance(this.getAccountBalance() + depositAmount);
+        //this.setAccountBalance(this.getAccountBalance() + depositAmount);
+        this.accountBalance += depositAmount;
     }
 
     public void withdraw(double deductAmount){
@@ -85,13 +97,19 @@ class BankAccount{
             return;
         }
 
+        if (deductAmount > this.accountBalance) {
+            System.out.println("Insufficient Balance");
+            return;
+        }
+
         if(suspiciousTransaction("Withdraw",deductAmount)){
 
             return;
         }
         
-        double netAmount = this.getAccountBalance() - deductAmount;
-        this.setAccountBalance(netAmount);
+        //double netAmount = this.getAccountBalance() - deductAmount;
+        //this.setAccountBalance(netAmount);
+        this.accountBalance -= deductAmount;
     }
 
     public boolean suspiciousTransaction(String transactionType, double transactionAmount){
@@ -247,6 +265,40 @@ class SavingsAccount extends BankAccount{
 
         double totalInterest = (this.getAccountBalance() + this.getfixedDepositBalance())* this.getInterestRate();
         return totalInterest;
+    }
+    
+}
+
+class CurrentAccount extends BankAccount{
+
+    public CurrentAccount(double accountBalance){
+
+        super(accountBalance);
+    }
+
+    @Override         
+    public void withdraw(double deductAmount){
+        
+        if(deductAmount <= 0){
+
+            System.out.println("Invalid Withdrawal Amount");
+            return;
+        }
+        
+        if(deductAmount > this.getAccountBalance()){
+
+            System.out.println("Insufficient Balance");
+            return;
+        
+        }       
+        
+        if(suspiciousTransaction("Withdraw",deductAmount)){
+
+            return;
+        }
+
+            double netAmount = this.getAccountBalance() - deductAmount;
+            this.setAccountBalance(netAmount);
     }
     
 }
