@@ -10,7 +10,6 @@
 ->Write a Java program where the "BankAccount" class includes fraud detection for unusual transactions.
 
 ->Create a new class called CurrentAccount that extends BankAccount.
-
 ->
 */
 
@@ -134,7 +133,7 @@ class BankAccount{
         return this.accountBalance;
     }
     
-    public void setAccountBalance(double newBalance){
+    private void setAccountBalance(double newBalance){
 
         this.accountBalance = newBalance;    
     }
@@ -161,11 +160,10 @@ class SavingsAccount extends BankAccount{
     
     public SavingsAccount(double accountBalance){
 
-        super(accountBalance); //Calls parent constructor to initialize saving account object.
+        super(Math.min(accountBalance,5000));        //Calls parent constructor to initialize saving account object.
         
         if(accountBalance > 5000){
 
-            this.setAccountBalance(5000);
             double remainingAmount = accountBalance - 5000;             
             this.setfixedDepositBalance(remainingAmount);
 
@@ -175,14 +173,8 @@ class SavingsAccount extends BankAccount{
     @Override
     public void withdraw(double deductAmount){
 
-        if(deductAmount <= 0){
-
-            System.out.println("Invalid Withdrawal Amount");
-            return;
-        }
-
-        if(suspiciousTransaction("Withdraw",deductAmount)){
-
+        if (deductAmount <= 0) {
+            super.withdraw(deductAmount);
             return;
         }
         
@@ -195,7 +187,7 @@ class SavingsAccount extends BankAccount{
             
         }else{
 
-            this.setAccountBalance(netAmount);
+            super.withdraw(deductAmount);
         }
         
     }
@@ -203,17 +195,17 @@ class SavingsAccount extends BankAccount{
     @Override
     public void deposit(double depositAmount){
 
-        if(depositAmount < 0){
-
+        if (depositAmount <= 0) {
+            
             System.out.println("Invalid Deposit Amount");
             return;
         }
 
-        if(suspiciousTransaction("Deposit",depositAmount)){
-
+        if (suspiciousTransaction("Deposit", depositAmount)) {
+           
             return;
         }
-        
+
         if(this.getAccountBalance() == 5000){
 
             double newfixedAccountBalance = this.getfixedDepositBalance() + depositAmount;
@@ -226,7 +218,8 @@ class SavingsAccount extends BankAccount{
             if(depositAmount > requiredAmount){
 
                 double newAccountBalance = this.getAccountBalance() + requiredAmount;
-                this.setAccountBalance(newAccountBalance);
+                //this.setAccountBalance(newAccountBalance);
+                super.deposit(requiredAmount);
 
                 double remainingDeposit = depositAmount - requiredAmount;
 
@@ -237,8 +230,8 @@ class SavingsAccount extends BankAccount{
             }else{
 
                 double newAccountBalance = this.getAccountBalance() + depositAmount;
-                this.setAccountBalance(newAccountBalance);
-                
+                //this.setAccountBalance(newAccountBalance);
+                super.deposit(depositAmount);
                 
             }
         }else{
@@ -276,29 +269,5 @@ class CurrentAccount extends BankAccount{
         super(accountBalance);
     }
 
-    @Override         
-    public void withdraw(double deductAmount){
-        
-        if(deductAmount <= 0){
-
-            System.out.println("Invalid Withdrawal Amount");
-            return;
-        }
-        
-        if(deductAmount > this.getAccountBalance()){
-
-            System.out.println("Insufficient Balance");
-            return;
-        
-        }       
-        
-        if(suspiciousTransaction("Withdraw",deductAmount)){
-
-            return;
-        }
-
-            double netAmount = this.getAccountBalance() - deductAmount;
-            this.setAccountBalance(netAmount);
-    }
     
 }
