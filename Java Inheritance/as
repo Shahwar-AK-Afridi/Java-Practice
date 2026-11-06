@@ -1,0 +1,115 @@
+/*
+->Write a Java program to create a class called Animal with a method named move(). Create a subclass called Cheetah that overrides the move() method to run.
+
+->Write a Java program where the "Cheetah" subclass adds a method to track its top running speed.
+
+->Write a Java program where the "Animal" class has a method to track migration patterns.
+
+->Write a Java program where the "Cheetah" subclass includes a method to test reaction speed.
+
+->Write a Java program where the "Animal" class introduces an attribute for diet, and subclasses override it.
+*/
+import java.util.*;
+public class Main{
+
+    public static void main(String args[]){
+
+        Animal a1 = new Animal("Generic");
+        System.out.println("Animal:");
+        a1.move();
+
+        Cheetah c1 = new Cheetah();
+        System.out.println("Cheetah: ");
+        c1.move();
+        c1.increaseSpeed();
+        System.out.println(c1.getTopSpeed());
+        c1.increaseSpeed();
+        c1.increaseSpeed();
+        System.out.println(c1.getTopSpeed());
+
+        double reactionTime = c1.getReactionSpeed();
+        System.out.println(reactionTime);
+    }
+}
+
+class Animal{
+
+    private String species;
+    private String destination;
+    private boolean isMigrating;
+
+    public Animal(String species){
+
+        this.species = species;
+        this.destination = "Unknown";
+        this.isMigrating = false;
+    }
+
+    public void move(){
+
+        System.out.println("This animal moves in its own way.");
+    }
+
+    public void startMigrating(String destination){
+
+        this.isMigrating = true;
+        this.destination = destination;
+        System.out.println(species + " has started migrating to: " + this.destination);
+    }
+
+    public void stopMigrating(){
+
+        this.isMigrating = false;
+        System.out.println(species + " has arrived and settled at its destination.");
+        
+    }
+
+    public void checkIsMigrating(){
+
+        if(this.isMigrating){
+                
+            System.out.println(species + " status: Currently traveling to " + this.destination + ".");
+        
+        } else {
+          
+            System.out.println(species + " status: Resident (Not currently migrating).");
+    
+        }
+    }
+}
+
+class Cheetah extends Animal{
+
+    private double speed;
+    private double reactionSpeed;
+    
+    public Cheetah(){
+
+        super("Cheetah");
+        this.speed = 0.0;
+        this.reactionSpeed = 0.0;
+    }
+
+    @Override
+    public void move(){
+
+        System.out.println("Running");
+    }
+
+    public void increaseSpeed(){
+
+        this.speed += 10.0;
+    }
+
+    public double getTopSpeed(){
+
+        return this.speed;
+    }
+
+    public double getReactionSpeed(){
+
+        Random random = new Random();
+        this.reactionSpeed = random.nextInt(101);
+        return this.reactionSpeed;
+    }
+}
