@@ -19,6 +19,8 @@ public class Main{
         Person p1 = new Person("Saka", "Afridi");
         System.out.println(p1.getFirstName());
         System.out.println(p1.getLastName());
+        System.out.println(p1.getEducationHistory());
+        
 
         System.out.println("---");
 
@@ -26,11 +28,21 @@ public class Main{
         System.out.println("ID: " + e1.getEmployeeId());
         System.out.println("Name: " + e1.getFirstName() + " " +e1.getLastName());
         System.out.println("Email: " + e1.getEmail());
-
+        e1.setEducationHistory("Bachelors");
+        System.out.println("Education: " + e1.getEducationHistory());
+        System.out.println("Email: " + e1.getEmail());
+    
         Employee e2 = new Employee("Ali", "Khan", "Software Engineer");
         System.out.println("ID: " + e2.getEmployeeId());
         System.out.println("Name: " + e2.getFirstName() + " " +e2.getLastName());
         System.out.println("Email: " + e2.getEmail());
+
+        Employee e3 = new Employee("Ahmed", "Raza", "Developer");
+
+        e3.setLeavesTaken(12);
+
+        System.out.println("Employee ID: " + e3.getEmployeeId());
+        System.out.println("Annual Leave Balance: " + e3.annualLeaveBalance());
     }
             
 }
@@ -39,21 +51,53 @@ class Person{
 
     private String firstName;
     private String lastName;
-
+    private String educationHistory;
+    
     public Person(String firstName, String lastName){
 
         this.firstName = firstName;
         this.lastName = lastName;
+        this.educationHistory = "Unqualified";
     }
 
+    public String getEducationHistory(){
+
+        return this.educationHistory;
+        
+    }
+
+    public void setEducationHistory(String newEducation){
+
+        if(newEducation != null && !newEducation.trim().isEmpty())
+        {
+            this.educationHistory = newEducation.trim();
+        }
+    }
     public String getFirstName(){
 
         return this.firstName;
     }
 
+    public void setFirstName(String newName){
+
+        if(newName != null && !newName.trim().isEmpty()){
+            
+            this.firstName = newName.trim();
+        }
+    }
+
     public String getLastName(){
 
         return this.lastName;
+    }
+    
+    public void setLastName(String newName){
+
+        if(newName != null && !newName.trim().isEmpty()){
+
+            this.lastName = newName.trim();
+        }
+        
     }
     
 }
@@ -64,6 +108,8 @@ class Employee extends Person{
     private String jobTitle;
     private String email;
     private int employeeId;
+    private int totalAnnualLeaves;
+    private int leavesTaken;
 
     static{
 
@@ -76,8 +122,8 @@ class Employee extends Person{
         super(firstName,lastName);
         Employee.idCounter += 1;
         this.employeeId = Employee.idCounter;
-        this.jobTitle = "Employed";
-        
+        this.jobTitle = "Unassigned";
+        this.totalAnnualLeaves = 30;
     }
 
     public Employee(String firstName, String lastName, String jobTitle){
@@ -86,6 +132,13 @@ class Employee extends Person{
         this.jobTitle = jobTitle;
     }
 
+    public void setLeavesTaken(int leavesDone){
+
+        if(leavesDone >= 0 && leavesDone <= this.totalAnnualLeaves){
+            
+            this.leavesTaken = leavesDone; 
+        }
+    }
     public int getEmployeeId(){
 
         return this.employeeId;
@@ -106,4 +159,18 @@ class Employee extends Person{
         this.email = firstName+"."+lastName+"."+title+"@gmail.com"; 
         return this.email;
     }
-}
+    
+    public int annualLeaveBalance(){
+
+        int leavesLeft = this.totalAnnualLeaves - this.leavesTaken;
+        if(leavesLeft >= 0){
+
+            return leavesLeft;
+        
+        }else{
+
+            return 0;
+        }
+        
+    }
+} 
