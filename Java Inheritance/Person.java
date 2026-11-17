@@ -51,26 +51,26 @@ class Person{
 
     private String firstName;
     private String lastName;
-    private String educationHistory;
+    private ArrayList<String> educationHistory;
     
     public Person(String firstName, String lastName){
 
         this.firstName = firstName;
         this.lastName = lastName;
-        this.educationHistory = "Unqualified";
+        this.educationHistory = new ArrayList<String>();
     }
 
-    public String getEducationHistory(){
+    public ArrayList<String> getEducationHistory(){
 
-        return this.educationHistory;
         
+         return new ArrayList<String>(this.educationHistory); //defensive copy
     }
 
     public void setEducationHistory(String newEducation){
 
         if(newEducation != null && !newEducation.trim().isEmpty())
         {
-            this.educationHistory = newEducation.trim();
+            this.educationHistory.add(newEducation.trim());
         }
     }
     public String getFirstName(){
