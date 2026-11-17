@@ -37,14 +37,21 @@ class Animal{
     private String species;
     private String destination;
     private boolean isMigrating;
+    private String diet;
 
     public Animal(String species){
 
         this.species = species;
         this.destination = "Unknown";
         this.isMigrating = false;
+        this.diet = "Unknown";
     }
 
+    public String getDiet(){
+
+        return this.diet;
+        
+    }
     public void move(){
 
         System.out.println("This animal moves in its own way.");
@@ -96,6 +103,12 @@ class Cheetah extends Animal{
         System.out.println("Running");
     }
 
+    @Override
+    public String getDiet(){
+
+        
+        return "Meat";
+    }
     public void increaseSpeed(){
 
         this.speed += 10.0;
