@@ -1,13 +1,28 @@
 /*
 ->Write a Java program to create a class called Shape with methods called getPerimeter() and getArea(). Create a subclass called Circle that overrides the getPerimeter() and getArea() methods to calculate the area and perimeter of a circle.
 
+->Write a Java program where the "Circle" subclass checks if a point lies inside the circle.
+
+->Write a Java program where the "Shape" class introduces a method to rotate shapes, and subclasses implement it.
+
+->Write a Java program where the "Circle" subclass adds a method to determine if two circles overlap.
+
+->Write a Java program where the "Shape" class allows dynamic scaling, and subclasses override it based on dimensions.
 */
 
 public class Main{
 
-    public static void main(){
+    public static void main(String args[]){
 
+        Circle c1 = new Circle(10,2,5);
+        System.out.println(c1.getArea());
+        System.out.println(c1.getPerimeter());
+
+        Point p1 = new Point(1,1);
+        Point p2 = new Point(15,20);
         
+        c1.checkPoint(p1);
+        c1.checkPoint(p2);
     }
     
 }
@@ -16,20 +31,9 @@ class Shape{
 
     private double perimeter;
     private double area;
-    private double length;
-    private double width;
-    private double height;
 
-    public Shape(double length, double width){
+    public Shape(){
 
-        this.length = length;
-        this.width = width;
-    }
-
-    public Shape(double length, double width, double height){
-
-        this.(double length, double width);
-        this.height = height;
     }
 
     public double getArea(){
@@ -43,14 +47,46 @@ class Shape{
     }
 }
 
-class Circle{
+class Circle extends Shape{
 
     private double radius;
     private static final double PI = 3.14159;
+    private double centerX;
+    private double centerY;
     
     public Circle(double radius){
 
-        this.radius = radius;    
+        this.centerX = 0.0;
+        this.centerY = 0.0;
+        
+        if(radius >= 0.0){
+
+            this.radius = radius;
+        
+        }else{
+
+            System.out.println("Warning: Radius cannot be negative. Setting radius to 0.");
+            this.radius = 0;
+        }
+        
+            
+    }
+
+    public Circle(double radius, double centerX, double centerY){
+
+        this.centerX = centerX;
+        this.centerY = centerY;
+        
+        if(radius >= 0.0){
+
+            this.radius = radius;
+        
+        }else{
+
+            System.out.println("Warning: Radius cannot be negative. Setting radius to 0.");
+            this.radius = 0;
+        }
+        
     }
 
     public double getRadius(){
@@ -71,5 +107,43 @@ class Circle{
         double totalPerimeter = 2 * PI * this.radius;
         return totalPerimeter;
     }
+
+    public void checkPoint(Point p){
+
+        double dx = p.getX() - this.centerX;
+        double dy = p.getY() - this.centerY;
+        double distance = Math.sqrt((dx*dx) +(dy*dy));
+
+        if(distance <= this.radius){
+
+            System.out.println("Inside Circle");
+        
+        }else{
+
+            System.out.println("Outside Circle");
+        }
+    }
     
+}
+
+class Point{
+
+    private double x;
+    private double y;
+    
+    public Point(double x, double y){
+
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX(){
+
+        return this.x;
+    }
+
+    public double getY(){
+
+        return this.y;
+    }
 }
