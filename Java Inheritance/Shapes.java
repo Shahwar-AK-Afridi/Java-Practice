@@ -1,28 +1,20 @@
-/*
-->Write a Java program to create a class called Shape with methods called getPerimeter() and getArea(). Create a subclass called Circle that overrides the getPerimeter() and getArea() methods to calculate the area and perimeter of a circle.
-
-->Write a Java program where the "Circle" subclass checks if a point lies inside the circle.
-
-->Write a Java program where the "Shape" class introduces a method to rotate shapes, and subclasses implement it.
-
-->Write a Java program where the "Circle" subclass adds a method to determine if two circles overlap.
-
-->Write a Java program where the "Shape" class allows dynamic scaling, and subclasses override it based on dimensions.
-*/
-
 public class Main{
 
     public static void main(String args[]){
 
-        Circle c1 = new Circle(10,2,5);
+        Circle c1 = new Circle(10, 2, 5);
         System.out.println(c1.getArea());
         System.out.println(c1.getPerimeter());
 
-        Point p1 = new Point(1,1);
-        Point p2 = new Point(15,20);
-        
+        Point p1 = new Point(1, 1);
+        Point p2 = new Point(15, 20);
+
         c1.checkPoint(p1);
         c1.checkPoint(p2);
+
+        // Test rotation
+        c1.rotate(45);
+        c1.rotate(180);
     }
     
 }
@@ -31,6 +23,7 @@ class Shape{
 
     private double perimeter;
     private double area;
+    private double rotateAngle;
 
     public Shape(){
 
@@ -44,6 +37,23 @@ class Shape{
     public double getPerimeter(){
 
         return this.perimeter;
+    }
+
+    public double getRotateAngle(){
+
+        return this.rotateAngle;
+    }
+
+    public void setRotateAngle(double newAngle){
+
+        this.rotateAngle = newAngle % 360;
+
+    }
+
+    public void rotate(double newAngle){
+
+        this.setRotateAngle(this.rotateAngle + newAngle);
+        System.out.println("Shape rotated by " + newAngle + " degrees. Current angle: " + this.rotateAngle + "°");
     }
 }
 
@@ -119,12 +129,19 @@ class Circle extends Shape{
         
         }else{
 
-            System.out.println("Outside Circle");
+                System.out.println("Outside Circle");
         }
             
         }else {
             System.out.println("Invalid point.");
     }
+    }
+
+    @Override
+    public void rotate(double angle) {
+    
+        super.setRotateAngle(super.getRotateAngle() + angle);
+        System.out.println("Circle rotated by " + angle + " degrees (Total: " + super.getRotateAngle() + "°). Appearance stays the same due to symmetry.");
     }
 }
 
@@ -132,7 +149,6 @@ class Point{
 
     private double x;
     private double y;
-    
     public Point(double x, double y){
 
         this.x = x;
