@@ -1,3 +1,15 @@
+/*
+->Write a Java program to create a class called Shape with methods called getPerimeter() and getArea(). Create a subclass called Circle that overrides the getPerimeter() and getArea() methods to calculate the area and perimeter of a circle.
+
+->Write a Java program where the "Circle" subclass checks if a point lies inside the circle.
+
+->Write a Java program where the "Shape" class introduces a method to rotate shapes, and subclasses implement it.
+
+->Write a Java program where the "Circle" subclass adds a method to determine if two circles overlap.
+
+->Write a Java program where the "Shape" class allows dynamic scaling, and subclasses override it based on dimensions.
+*/
+
 public class Main{
 
     public static void main(String args[]){
