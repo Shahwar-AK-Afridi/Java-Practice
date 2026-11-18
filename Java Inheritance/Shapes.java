@@ -51,13 +51,27 @@ class Circle extends Shape{
 
     private double radius;
     private static final double PI = 3.14159;
-    private double centerX;
-    private double centerY;
-    
-    public Circle(double radius){
+    private Point center;
 
-        this.centerX = 0.0;
-        this.centerY = 0.0;
+    public Circle(double radius){
+    
+        this(radius, new Point(0.0,0.0));    
+    }
+
+    public Circle(double radius,double centerX, double centerY){
+
+        this(radius, new Point(centerX,centerY));
+    }
+    public Circle(double radius, Point center){
+
+        if(center != null){
+
+            this.center = center;   
+        
+        }else{
+
+            this.center = new Point(0.0,0.0);
+        }
         
         if(radius >= 0.0){
 
@@ -70,23 +84,6 @@ class Circle extends Shape{
         }
         
             
-    }
-
-    public Circle(double radius, double centerX, double centerY){
-
-        this.centerX = centerX;
-        this.centerY = centerY;
-        
-        if(radius >= 0.0){
-
-            this.radius = radius;
-        
-        }else{
-
-            System.out.println("Warning: Radius cannot be negative. Setting radius to 0.");
-            this.radius = 0;
-        }
-        
     }
 
     public double getRadius(){
@@ -110,10 +107,12 @@ class Circle extends Shape{
 
     public void checkPoint(Point p){
 
-        double dx = p.getX() - this.centerX;
-        double dy = p.getY() - this.centerY;
-        double distance = Math.sqrt((dx*dx) +(dy*dy));
-
+        if(p != null){
+            
+            double dx = p.getX() - this.center.getX();
+            double dy = p.getY() - this.center.getY();
+            double distance = Math.sqrt((dx*dx) +(dy*dy));
+            
         if(distance <= this.radius){
 
             System.out.println("Inside Circle");
@@ -122,8 +121,11 @@ class Circle extends Shape{
 
             System.out.println("Outside Circle");
         }
+            
+        }else {
+            System.out.println("Invalid point.");
     }
-    
+    }
 }
 
 class Point{
