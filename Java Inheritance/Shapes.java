@@ -20,15 +20,15 @@ class Shape{
     private double width;
     private double height;
 
-    public shape(double length, double width){
+    public Shape(double length, double width){
 
         this.length = length;
         this.width = width;
     }
 
-    public shape(double length, double width, double height){
+    public Shape(double length, double width, double height){
 
-        this.shape(double length, double width);
+        this.(double length, double width);
         this.height = height;
     }
 
@@ -61,7 +61,15 @@ class Circle{
     @Override
     public double getArea(){
 
-        double totalArea = 
+        double totalArea = PI * this.radius * this.radius;
+        return totalArea;
+    }
+
+    @Override
+    public double getPerimeter(){
+
+        double totalPerimeter = 2 * PI * this.radius;
+        return totalPerimeter;
     }
     
 }
