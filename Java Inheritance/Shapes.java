@@ -27,6 +27,18 @@ public class Main{
         // Test rotation
         c1.rotate(45);
         c1.rotate(180);
+
+        Circle c2 = new Circle(10,5,9);
+        System.out.println("Is Overlapping: "+c1.isOverlapping(c2));
+        System.out.println("Is Overlapping: "+c1.isOverlapping());
+
+        System.out.println("Old Radius: " + c1.getRadius());
+        System.out.println("Old Area: " + c1.getArea());
+        System.out.println("Old Perimeter: " + c1.getPerimeter());
+        c1.scale(2.0);
+        System.out.println("New Radius: " + c1.getRadius());
+        System.out.println("New Area: " + c1.getArea());
+        System.out.println("New Perimeter: " + c1.getPerimeter());
     }
     
 }
@@ -67,6 +79,20 @@ class Shape{
         this.setRotateAngle(this.rotateAngle + newAngle);
         System.out.println("Shape rotated by " + newAngle + " degrees. Current angle: " + this.rotateAngle + "°");
     }
+
+    public void scale(double factor){
+
+        if(factor > 0.0){
+
+            System.out.println("Shape is scaled by factor: "+ factor);
+        
+        }else{
+
+            System.out.println("Warning! Scale must be greator than 0");
+        }
+        
+    }
+
 }
 
 class Circle extends Shape{
@@ -154,6 +180,53 @@ class Circle extends Shape{
     
         super.setRotateAngle(super.getRotateAngle() + angle);
         System.out.println("Circle rotated by " + angle + " degrees (Total: " + super.getRotateAngle() + "°). Appearance stays the same due to symmetry.");
+    }
+
+    public boolean isOverlapping(Circle c1){
+        
+        if(c1 != null){
+            
+            double dx = c1.center.getX() - this.center.getX();
+            double dy = c1.center.getY() - this.center.getY();
+    
+            double distanceFromCenter = Math.sqrt((dx*dx) + (dy*dy));
+    
+            double sumOfRadius = this.getRadius() + c1.getRadius();
+    
+            if(distanceFromCenter <= sumOfRadius){
+    
+                return true;
+            
+            }else{
+    
+                return false;
+            }
+        }else{
+
+            System.out.println("Please Send correct circle object");
+            return false;
+        }
+    }
+
+    public boolean isOverlapping(){
+
+            System.out.println("Please Send correct circle object");
+            return false;
+    }
+
+    @Override
+    public void scale(double factor){
+
+        if(factor > 0){
+
+            this.radius *=  factor;
+            System.out.println("Circle scaled by factor: "+factor);
+        
+        }else{
+
+            System.out.println("Warning! Scale must be greater than 0");
+        }
+        
     }
 }
 
