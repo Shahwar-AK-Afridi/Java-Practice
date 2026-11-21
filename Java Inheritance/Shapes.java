@@ -9,7 +9,7 @@
 
 ->Write a Java program where the "Shape" class allows dynamic scaling, and subclasses override it based on dimensions.
 */
-
+import java.util.*;
 public class Main{
 
     public static void main(String args[]){
@@ -61,30 +61,61 @@ public class Main{
 
         System.out.println(r1.getArea());
         System.out.println(r1.getPerimeter());
+
+        Square s1 = new Square(5, new Point(0, 0));
+
+        s1.rotate(45);             // Shape's method
+        s1.getArea();              // Rectangle's overridden method
+        s1.getPerimeter();         // Rectangle's overridden method
+        s1.scale(2);               // Rectangle's overridden method
+        s1.setSide(10);            // Square's own method
+
+        double totalArea = 0.0;
+        double totalPerimeter = 0.0;
+        
+        ArrayList<Shape> objects = new ArrayList<>();
+        objects.add(c4);
+        objects.add(r1);
+        objects.add(s1);
+
+        for(Shape obj: objects){
+
+            totalArea += obj.getArea();
+            totalPerimeter +=  obj.getPerimeter();
+            
+        }
+
+        System.out.println("Area of Shapes: "+ totalArea);
+        System.out.println("Perimeter of Shapes: "+ totalPerimeter);
+
+        Movable m1 = new Circle(5);
+        m1.move(2, 3);
+
+        Scalable s3 = new Rectangle(4, 6, new Point(0, 0));
+        s3.scale(2);
+
+        //Square inherits the interface implementation from Rectangle
+        Movable m2 = new Square(5, new Point(0, 0));
+        m2.move(3, 4);
     }
     
 }
 
-class Shape{
+abstract class Shape{
 
-    private double perimeter;
-    private double area;
+
     private double rotateAngle;
 
     public Shape(){
 
     }
 
-    public double getArea(){
+    public abstract double getArea();
 
-        return this.area;  
-    }
+    public abstract double getPerimeter();
 
-    public double getPerimeter(){
-
-        return this.perimeter;
-    }
-
+    public abstract void scale(double factor);
+    
     public double getRotateAngle(){
 
         return this.rotateAngle;
@@ -101,23 +132,9 @@ class Shape{
         this.setRotateAngle(this.rotateAngle + newAngle);
         System.out.println("Shape rotated by " + newAngle + " degrees. Current angle: " + this.rotateAngle + "°");
     }
-
-    public void scale(double factor){
-
-        if(factor > 0.0){
-
-            System.out.println("Shape is scaled by factor: "+ factor);
-        
-        }else{
-
-            System.out.println("Warning! Scale must be greator than 0");
-        }
-        
-    }
-
 }
 
-class Circle extends Shape{
+class Circle extends Shape implements Movable, Scalable{
 
     private double radius;
     private static final double PI = 3.14159;
@@ -136,7 +153,7 @@ class Circle extends Shape{
 
         if(center != null){
 
-            this.center = center;   
+            this.center = new Point(center.getX(), center.getY());   
         
         }else{
 
@@ -154,6 +171,19 @@ class Circle extends Shape{
         }
         
             
+    }
+
+    //Copy Constructor
+    public Circle(Circle other) {
+    
+        this(other.radius, other.center);
+        
+    }
+
+    public Point getCenter(){
+
+        Point newCenter = new Point(this.center);  //Reusing copy constructor of point class.
+        return newCenter;
     }
 
     public double getRadius(){
@@ -317,6 +347,7 @@ class Circle extends Shape{
         
     }
 
+    @Override
     public void move(double dx, double dy){
 
         double oldDx = this.center.getX();
@@ -328,7 +359,7 @@ class Circle extends Shape{
     }
 }
 
-class Rectangle extends Shape{
+class Rectangle extends Shape implements Movable, Scalable{
 
     private double width;
     private double height;
@@ -384,6 +415,16 @@ class Rectangle extends Shape{
         
     }
     
+    @Override
+    public void move(double dx, double dy){
+
+        double oldDx = this.center.getX();
+        this.center.setX(oldDx+dx);
+
+        double oldDy = this.center.getY();
+        this.center.setY(oldDy+dy);
+    }
+    
 }
 
 class Square extends Rectangle{
@@ -418,6 +459,11 @@ class Point{
         this.y = y;
     }
 
+    public Point(Point other) {
+        
+        this(other.getX(), other.getY());
+    }
+
     public double getX(){
 
         return this.x;
@@ -438,4 +484,12 @@ class Point{
         this.y = newY;
              
     }
+}
+
+interface Movable {
+    void move(double dx, double dy);
+}
+
+interface Scalable {
+    void scale(double factor);
 }
