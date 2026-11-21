@@ -17,7 +17,8 @@ public class Main{
         Circle c1 = new Circle(10, 2, 5);
         System.out.println(c1.getArea());
         System.out.println(c1.getPerimeter());
-
+        System.out.println(c1);
+        
         Point p1 = new Point(1, 1);
         Point p2 = new Point(15, 20);
 
@@ -356,6 +357,14 @@ class Circle extends Shape implements Movable, Scalable{
         double oldDy = this.center.getY();
         this.center.setY(oldDy+dy);
         
+    }
+
+    @Override
+    public String toString(){
+
+        String representation = "Circle{radius="+this.radius+", center={"+this.center.getX()+","+this.center.getY()+"})";
+
+        return representation;
     }
 }
 
