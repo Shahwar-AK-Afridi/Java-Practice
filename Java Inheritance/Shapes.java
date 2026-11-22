@@ -98,6 +98,18 @@ public class Main{
         //Square inherits the interface implementation from Rectangle
         Movable m2 = new Square(5, new Point(0, 0));
         m2.move(3, 4);
+
+        Circle c6 = new Circle(10, new Point(2, 3));
+        Circle c7 = new Circle(10, new Point(2, 3));
+        Circle c8 = new Circle(20, new Point(2, 3));
+
+        System.out.println(c6 == c7);       // false
+        System.out.println(c6.equals(c7));  // true
+        System.out.println(c6.equals(c8));  // false
+        System.out.println(c6.equals(null)); // false
+    
+        System.out.println(c6.equals(c7));               // true
+        System.out.println(c6.hashCode() == c7.hashCode()); // true
     }
     
 }
@@ -366,6 +378,40 @@ class Circle extends Shape implements Movable, Scalable{
 
         return representation;
     }
+
+    @Override //Overridng from Object Class.
+    public boolean equals(Object obj){
+
+        if(this == obj){
+
+            return true;
+        }
+
+        if(!(obj instanceof Circle)){
+
+            return false;
+            
+        }
+
+        Circle other = (Circle) obj;
+        
+        if(this.radius == other.radius && this.center.getX() == other.center.getX() && this.center.getY() == other.center.getY()){
+
+            return true;
+        
+        }else{
+
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+
+        int result = Objects.hash(this.radius,this.center.getX(),this.center.getY());
+        
+        return result;
+    }
 }
 
 class Rectangle extends Shape implements Movable, Scalable{
@@ -433,7 +479,44 @@ class Rectangle extends Shape implements Movable, Scalable{
         double oldDy = this.center.getY();
         this.center.setY(oldDy+dy);
     }
+
+    public boolean equals(Object obj){
+
+        if(this == obj){
+
+            return true;
+        }
+        
+        //As square inherits from rectangle.    
+        if (obj == null || this.getClass() != obj.getClass()) {
     
+            return false;
+        
+        }
+        
+        Rectangle other = (Rectangle) obj;
+        
+        return Double.compare(this.width, other.width) == 0
+        && Double.compare(this.height, other.height) == 0
+        && Double.compare(this.center.getX(), other.center.getX()) == 0
+        && Double.compare(this.center.getY(), other.center.getY()) == 0;
+    
+        
+    }
+
+    public int hashCode(){
+
+        int code = Objects.hash(this.width, this.height, this.center.getX(), this.center.getY());
+
+        return code;
+    }
+
+    public String toString(){
+
+        String representation = "Rectangle Width: "+ this.width +", height: "+ this.height;
+
+        return representation;
+    }
 }
 
 class Square extends Rectangle{
