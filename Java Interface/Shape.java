@@ -1,13 +1,18 @@
 /*
-->Write a Java program to create a class called Shape with methods called getPerimeter() and getArea(). Create a subclass called Circle that overrides the getPerimeter() and getArea() methods to calculate the area and perimeter of a circle.
-
-->Write a Java program where the "Circle" subclass checks if a point lies inside the circle.
-
-->Write a Java program where the "Shape" class introduces a method to rotate shapes, and subclasses implement it.
-
-->Write a Java program where the "Circle" subclass adds a method to determine if two circles overlap.
-
-->Write a Java program where the "Shape" class allows dynamic scaling, and subclasses override it based on dimensions.
+Completed Tasks
+#	Task	What You Implemented	Status
+1	Radius Validation	setRadius() with validation for negative values	Completed
+2	Point Inside Circle	containsPoint(Point p)	Completed
+3	Moving a Circle	move(dx, dy) and Point setters	Completed
+4	Circle Geometry	distanceTo() and containsCircle()	Completed
+5	Rectangle Class	Rectangle extends Shape, area, perimeter, scaling	Completed
+6	Square Class	Square extends Rectangle, setSide()	Completed
+7	Polymorphism	ArrayList<Shape> and total area/perimeter calculations	Completed
+8	Abstract Classes	Abstract Shape, getArea(), getPerimeter(), scale()	Completed
+9	Interfaces	Movable, Scalable, implements	Completed
+10	Object Copying	Copy constructors, defensive copying, shallow/deep copying	Completed
+11	Object Methods	toString(), equals(), hashCode()	Completed
+12	ShapeManager	Managing shapes using aggregation and polymorphism	Completed
 */
 import java.util.*;
 public class Main{
@@ -17,7 +22,8 @@ public class Main{
         Circle c1 = new Circle(10, 2, 5);
         System.out.println(c1.getArea());
         System.out.println(c1.getPerimeter());
-
+        System.out.println(c1);
+        
         Point p1 = new Point(1, 1);
         Point p2 = new Point(15, 20);
 
@@ -97,6 +103,18 @@ public class Main{
         //Square inherits the interface implementation from Rectangle
         Movable m2 = new Square(5, new Point(0, 0));
         m2.move(3, 4);
+
+        Circle c6 = new Circle(10, new Point(2, 3));
+        Circle c7 = new Circle(10, new Point(2, 3));
+        Circle c8 = new Circle(20, new Point(2, 3));
+
+        System.out.println(c6 == c7);       // false
+        System.out.println(c6.equals(c7));  // true
+        System.out.println(c6.equals(c8));  // false
+        System.out.println(c6.equals(null)); // false
+    
+        System.out.println(c6.equals(c7));               // true
+        System.out.println(c6.hashCode() == c7.hashCode()); // true
     }
     
 }
@@ -357,6 +375,48 @@ class Circle extends Shape implements Movable, Scalable{
         this.center.setY(oldDy+dy);
         
     }
+
+    @Override
+    public String toString(){
+
+        String representation = "Circle{radius="+this.radius+", center={"+this.center.getX()+","+this.center.getY()+"})";
+
+        return representation;
+    }
+
+    @Override //Overridng from Object Class.
+    public boolean equals(Object obj){
+
+        if(this == obj){
+
+            return true;
+        }
+
+        if(!(obj instanceof Circle)){
+
+            return false;
+            
+        }
+
+        Circle other = (Circle) obj;
+        
+        if(this.radius == other.radius && this.center.getX() == other.center.getX() && this.center.getY() == other.center.getY()){
+
+            return true;
+        
+        }else{
+
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode(){
+
+        int result = Objects.hash(this.radius,this.center.getX(),this.center.getY());
+        
+        return result;
+    }
 }
 
 class Rectangle extends Shape implements Movable, Scalable{
@@ -424,7 +484,44 @@ class Rectangle extends Shape implements Movable, Scalable{
         double oldDy = this.center.getY();
         this.center.setY(oldDy+dy);
     }
+
+    public boolean equals(Object obj){
+
+        if(this == obj){
+
+            return true;
+        }
+        
+        //As square inherits from rectangle.    
+        if (obj == null || this.getClass() != obj.getClass()) {
     
+            return false;
+        
+        }
+        
+        Rectangle other = (Rectangle) obj;
+        
+        return Double.compare(this.width, other.width) == 0
+        && Double.compare(this.height, other.height) == 0
+        && Double.compare(this.center.getX(), other.center.getX()) == 0
+        && Double.compare(this.center.getY(), other.center.getY()) == 0;
+    
+        
+    }
+
+    public int hashCode(){
+
+        int code = Objects.hash(this.width, this.height, this.center.getX(), this.center.getY());
+
+        return code;
+    }
+
+    public String toString(){
+
+        String representation = "Rectangle Width: "+ this.width +", height: "+ this.height;
+
+        return representation;
+    }
 }
 
 class Square extends Rectangle{
