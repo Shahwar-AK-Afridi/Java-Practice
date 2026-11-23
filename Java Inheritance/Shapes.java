@@ -1,13 +1,18 @@
 /*
-->Write a Java program to create a class called Shape with methods called getPerimeter() and getArea(). Create a subclass called Circle that overrides the getPerimeter() and getArea() methods to calculate the area and perimeter of a circle.
-
-->Write a Java program where the "Circle" subclass checks if a point lies inside the circle.
-
-->Write a Java program where the "Shape" class introduces a method to rotate shapes, and subclasses implement it.
-
-->Write a Java program where the "Circle" subclass adds a method to determine if two circles overlap.
-
-->Write a Java program where the "Shape" class allows dynamic scaling, and subclasses override it based on dimensions.
+Completed Tasks
+#	Task	What You Implemented	Status
+1	Radius Validation	setRadius() with validation for negative values	Completed
+2	Point Inside Circle	containsPoint(Point p)	Completed
+3	Moving a Circle	move(dx, dy) and Point setters	Completed
+4	Circle Geometry	distanceTo() and containsCircle()	Completed
+5	Rectangle Class	Rectangle extends Shape, area, perimeter, scaling	Completed
+6	Square Class	Square extends Rectangle, setSide()	Completed
+7	Polymorphism	ArrayList<Shape> and total area/perimeter calculations	Completed
+8	Abstract Classes	Abstract Shape, getArea(), getPerimeter(), scale()	Completed
+9	Interfaces	Movable, Scalable, implements	Completed
+10	Object Copying	Copy constructors, defensive copying, shallow/deep copying	Completed
+11	Object Methods	toString(), equals(), hashCode()	Completed
+12	ShapeManager	Managing shapes using aggregation and polymorphism	Completed
 */
 import java.util.*;
 public class Main{
