@@ -1,5 +1,13 @@
 /*
-Write a Java program to create a vehicle class hierarchy. The base class should be Vehicle, with subclasses Truck, Car and Motorcycle. Each subclass should have properties such as make, model, year, and fuel type. Implement methods for calculating fuel efficiency, distance traveled, and maximum speed.
+->Write a Java program to create a vehicle class hierarchy. The base class should be Vehicle, with subclasses Truck, Car and Motorcycle. Each subclass should have properties such as make, model, year, and fuel type. Implement methods for calculating fuel efficiency, distance traveled, and maximum speed.
+
+->Write a Java program where the "Truck" subclass calculates load capacity based on cargo weight.
+
+->Write a Java program where the "Car" subclass implements a method to estimate travel time for long trips.
+
+->Write a Java program where the "Motorcycle" subclass includes a method to check tire pressure before a ride.
+
+->Write a Java program where the "Vehicle" class introduces a method for maintenance scheduling.
 */
 import java.util.*;
 
