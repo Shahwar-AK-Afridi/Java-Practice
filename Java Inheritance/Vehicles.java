@@ -13,15 +13,21 @@ public class Main{
         Truck truck1 = new Truck("Ford", "F-150", 2024, "Diesel");
         Motorcycle bike1 = new Motorcycle("Yamaha", "R1", 2022, "Petrol");
     
-        System.out.println("Original Car: " + car1.getMake() + " " + car1.getModel());
-        System.out.println("Copied Car:   " + car2.getMake() + " " + car2.getModel());
-        System.out.println("Truck:        " + truck1.getMake() + " " + truck1.getModel());
-        System.out.println("Motorcycle:   " + bike1.getMake() + " " + bike1.getModel());
+        // Uses your overridden toString() automatically!
+        System.out.println("Original Car: " + car1);
+        System.out.println("Copied Car:   " + car2);
+        System.out.println("Truck:        " + truck1);
+        System.out.println("Motorcycle:   " + bike1);
+    
+        // Tests equals() and hashCode()
+        System.out.println("\ncar1.equals(car2)? " + car1.equals(car2));       // true
+        System.out.println("car1 == car2?      " + (car1 == car2));            // false
+        System.out.println("Same hashCode?     " + (car1.hashCode() == car2.hashCode())); // true
         
     }
 }
 
-class Vehicle{
+abstract class Vehicle{
 
     private String make;
     private String model;
@@ -61,6 +67,17 @@ class Vehicle{
     public String getFuelType(){
 
         return this.fuelType;
+    }
+
+    public abstract double calculateFuelEfficiency(double distance, double fuelConsumed);
+
+    public abstract double maximumSpeed();
+    
+    public double distanceTravelled(double speed, double time){
+
+        double distance = speed * time;
+        
+        return distance;
     }
 
     @Override
