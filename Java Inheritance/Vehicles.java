@@ -71,7 +71,7 @@ abstract class Vehicle{
 
     public abstract double calculateFuelEfficiency(double distance, double fuelConsumed);
 
-    public abstract double maximumSpeed();
+    public abstract double getMaximumSpeed();
     
     public double distanceTravelled(double speed, double time){
 
@@ -136,6 +136,21 @@ class Truck extends Vehicle{
         // Calls Vehicle(Vehicle other) safely
         super(other); 
     }
+
+    @Override
+    public double calculateFuelEfficiency(double distance, double fuelConsumed){
+
+        double fuelEfficiency =  (distance / fuelConsumed) * 0.9; // Lower efficiency due to heavy load
+        
+        return fuelEfficiency;
+        
+    }
+
+    @Override
+    public double getMaximumSpeed(){
+
+        return 210.0;
+    }
 }
 
 class Car extends Vehicle{
@@ -150,6 +165,21 @@ class Car extends Vehicle{
     public Car(Car other){
 
         super(other);
+    }
+
+    @Override
+    public double calculateFuelEfficiency(double distance, double fuelConsumed){
+
+        double fuelEfficiency = distance / fuelConsumed;
+        
+        return fuelEfficiency;
+        
+    }
+
+    @Override
+    public double getMaximumSpeed(){
+
+        return 250.0;
     }
 }
 
@@ -166,4 +196,16 @@ class Motorcycle extends Vehicle{
 
         super(other);
     }
+
+    @Override
+    public double calculateFuelEfficiency(double distance, double fuelConsumed) {
+        return (distance / fuelConsumed) * 1.15; // Higher efficiency due to lighter weight
+    }
+
+    @Override
+    public double getMaximumSpeed(){
+
+        return 300.0;
+    }
+    
 }
