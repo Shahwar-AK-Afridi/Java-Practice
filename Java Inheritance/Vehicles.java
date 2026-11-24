@@ -20,7 +20,15 @@ public class Main{
     
         Truck truck1 = new Truck("Ford", "F-150", 2024, "Diesel",100.0);
         Motorcycle bike1 = new Motorcycle("Yamaha", "R1", 2022, "Petrol");
-    
+
+        System.out.println(bike1.isTyreGood());
+        bike1.inflateTyre();
+        System.out.println(bike1.isTyreGood());
+        bike1.inflateTyre();
+        bike1.inflateTyre();
+        bike1.inflateTyre();
+        System.out.println(bike1.isTyreGood());
+        
         // Uses your overridden toString() automatically!
         System.out.println("Original Car: " + car1);
         System.out.println("Copied Car:   " + car2);
@@ -80,6 +88,8 @@ abstract class Vehicle{
     public abstract double calculateFuelEfficiency(double distance, double fuelConsumed);
 
     public abstract double getMaximumSpeed();
+
+    public abstract String maintenanceScheduling(double distanceTravelled);
     
     public double distanceTravelled(double speed, double time){
 
@@ -211,6 +221,13 @@ class Truck extends Vehicle{
 
         return 210.0;
     }
+
+    @Override
+    public String maintenanceScheduling(double distanceTravelled){
+
+        
+        
+    }
 }
 
 class Car extends Vehicle{
@@ -261,16 +278,85 @@ class Car extends Vehicle{
 
 class Motorcycle extends Vehicle{
 
+    private double tyrePressure;
+
     public Motorcycle(String make, String model, int year, String fuelType){
 
         //Constructor Chaining
         super(make, model, year, fuelType);
+        this.tyrePressure = 25;
         
     }
 
     public Motorcycle(Motorcycle other){
 
         super(other);
+        this.tyrePressure = other.tyrePressure;
+    }
+
+    public double getTyrePressure(){
+
+        return this.tyrePressure;
+    }
+
+    public void inflateTyre(){
+
+        this.tyrePressure += 5;
+    }
+
+    public String isTyreGood(){
+
+        if(this.tyrePressure < 30){
+
+            return "Low Tyre Pressure";
+        
+        }else if(this.tyrePressure >=30 && this.tyrePressure <= 40){
+
+            return "All Good";
+        
+        }else{
+
+            return "Overinflated Tyre";
+        }
+        
+    }
+
+    @Override
+    public boolean equals(Object obj){
+
+        if(!(super.equals(obj))){
+
+            return false;
+        
+        }else{
+
+            Motorcycle other = (Motorcycle) obj;
+            if(this.tyrePressure == other.tyrePressure){
+
+                return true;
+            
+            }else{
+
+                return false;
+            }
+            
+        }
+    }
+
+    @Override
+    public int hashCode(){
+
+        int uniqueCode = Objects.hash(super.hashCode(), this.tyrePressure);
+        return uniqueCode;
+        
+    }
+
+    @Override
+    public String toString(){
+
+        String representation = super.toString() + ", Tyre Pressure:" + this.tyrePressure;
+
+        return representation;
     }
 
     @Override
