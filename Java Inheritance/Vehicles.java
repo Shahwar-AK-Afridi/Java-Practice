@@ -165,32 +165,36 @@ class Truck extends Vehicle{
 
     @Override
     public boolean equals(Object obj){
-        
-        if(this == obj){
 
-            return true;
-        }
-
-        if(obj == null || this.getClass() != obj.getClass()){
+        if(!(super.equals(obj))){
 
             return false;
-            
-        }
-
-        Truck other = (Truck) obj;
-        if(this.getYear() == other.getYear() &&
-        this.getMake().equals(other.getMake()) &&
-        this.getModel().equals(other.getModel()) &&
-        this.getFuelType().equals(other.getFuelType()) &&
-        this.maxLoadCapacity == other.maxLoadCapacity){
-
-            return true;
-            
+        
         }else{
 
+            Truck other = (Truck) obj;
+            if(this.maxLoadCapacity == other.maxLoadCapacity){
+
+                return true;
+                
+            }
+
             return false;
         }
+    }
 
+    @Override
+    public int hashCode(){
+
+        int uniqueCode = Objects.hash(super.hashCode(),this.maxLoadCapacity);
+        return uniqueCode;
+    }
+
+    @Override
+    public String toString(){
+
+        String representation = super.toString() + ", Max Load Capacity:"+ this.maxLoadCapacity;
+        return representation;
     }
 
     @Override
