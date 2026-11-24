@@ -18,7 +18,7 @@ public class Main{
         Car car1 = new Car("Honda", "Civic", 2023, "Petrol");
         Car car2 = new Car(car1);
     
-        Truck truck1 = new Truck("Ford", "F-150", 2024, "Diesel");
+        Truck truck1 = new Truck("Ford", "F-150", 2024, "Diesel",100.0);
         Motorcycle bike1 = new Motorcycle("Yamaha", "R1", 2022, "Petrol");
     
         // Uses your overridden toString() automatically!
@@ -132,10 +132,13 @@ abstract class Vehicle{
 
 class Truck extends Vehicle{
 
-     public Truck(String make, String model, int year, String fuelType){
+     private double maxLoadCapacity;
+
+     public Truck(String make, String model, int year, String fuelType, double loadCapacity){
 
         //Constructor Chaining 
         super(make, model, year, fuelType);
+        this.maxLoadCapacity  = loadCapacity ;
          
      }   
 
@@ -143,6 +146,51 @@ class Truck extends Vehicle{
 
         // Calls Vehicle(Vehicle other) safely
         super(other); 
+        this.maxLoadCapacity = other.maxLoadCapacity;
+    }
+
+    public double calculateRemainingCapacity(double cargoWeight){
+
+        if(cargoWeight >= 0 && cargoWeight <= this.maxLoadCapacity){
+
+            double remainingWeight = this.maxLoadCapacity - cargoWeight;
+            return remainingWeight;
+        
+        }else{
+
+            return 0.0;
+        }
+        
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        
+        if(this == obj){
+
+            return true;
+        }
+
+        if(obj == null || this.getClass() != obj.getClass()){
+
+            return false;
+            
+        }
+
+        Truck other = (Truck) obj;
+        if(this.getYear() == other.getYear() &&
+        this.getMake().equals(other.getMake()) &&
+        this.getModel().equals(other.getModel()) &&
+        this.getFuelType().equals(other.getFuelType()) &&
+        this.maxLoadCapacity == other.maxLoadCapacity){
+
+            return true;
+            
+        }else{
+
+            return false;
+        }
+
     }
 
     @Override
