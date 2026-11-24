@@ -227,6 +227,22 @@ class Car extends Vehicle{
         super(other);
     }
 
+    public double estimateTimeTravel(double distance, double speed){
+
+        if(distance <= 0 || speed <= 0){
+
+            System.out.println("Invalid distance or speed.");
+            return 0.0;
+        }
+        double time = distance/speed;
+
+        int restStops = (int)(distance/300);
+
+        double totalRestTime = restStops * 0.5;
+
+        return time + totalRestTime;
+ 
+    }
     @Override
     public double calculateFuelEfficiency(double distance, double fuelConsumed){
 
