@@ -6,26 +6,18 @@ public class Main{
 
     public static void main(String args[]){
 
-        Employee e1 = new Employee("John", "ABC", "Sales",50000.45);
-
-        Employee e2 = new Employee(e1);
-
-        System.out.println(e2==e1);
-        System.out.println(e2.equals(e1));
-
-        Manager m1 = new Manager("Smith", "bca", "Salas Manager",502452);
-
-        Manager m2 = new Manager(m1);
-
-        System.out.println(m2==m1);
-        System.out.println(m2.equals(m1));
-
-        System.out.println(m2);
+        Manager m1 = new Manager("Smith", "bca", "Salas Manager",1000);
+        Developer d1 = new Developer("Jasd", "ABC", "Developer",1000);
+        Programmer p1 = new Programmer("Jasd", "ABC", "Programmer",1000);
+        
+        System.out.println(m1.calculateBonus());
+        System.out.println(d1.calculateBonus());
+        System.out.println(p1.calculateBonus());
         
     }
 }
 
-class Employee{
+abstract class Employee{
 
     private String name;
     private String address;
@@ -40,9 +32,32 @@ class Employee{
         this.salary = salary;
     }
 
+    public abstract double calculateBonus();
+    
     public Employee(Employee other){
 
         this(other.name, other.address, other.jobTitle, other.salary);
+    }
+
+    public String getName(){
+
+        return this.name;
+    
+    }
+
+    public String getAddress(){
+
+        return this.address;
+    }
+
+    public String getJobTitle(){
+
+        return this.jobTitle;
+    }
+
+    public double getSalary(){
+
+        return this.salary;
     }
 
     @Override
@@ -96,6 +111,14 @@ class Manager extends Employee{
 
         super(other);
     }
+
+    @Override
+    public double calculateBonus(){
+
+        double bonus = this.getSalary() * 0.2;
+        return bonus;
+        
+    }
 }
 
 class Developer extends Employee{
@@ -111,6 +134,13 @@ class Developer extends Employee{
         super(other);
     }
     
+    @Override
+    public double calculateBonus(){
+
+        double bonus = this.getSalary() * 0.15;
+        return bonus;
+        
+    }
 }
 
 class Programmer extends Employee{
@@ -124,5 +154,14 @@ class Programmer extends Employee{
     public Programmer(Programmer other){
 
         super(other);
+    }
+
+    
+    @Override
+    public double calculateBonus(){
+
+        double bonus = this.getSalary() * 0.1;
+        return bonus;
+        
     }
 }
