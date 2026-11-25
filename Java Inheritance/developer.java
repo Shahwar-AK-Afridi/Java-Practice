@@ -13,6 +13,10 @@ public class Main{
         System.out.println(m1.calculateBonus());
         System.out.println(d1.calculateBonus());
         System.out.println(p1.calculateBonus());
+
+        System.out.println(m1.generatePerformanceReport());
+        m1.setPerformancePoints(10);
+        System.out.println(m1.generatePerformanceReport());
         
     }
 }
@@ -23,6 +27,7 @@ abstract class Employee{
     private String address;
     private String jobTitle;
     private double salary;
+    private double performancePoints;
     
     public Employee(String name, String address, String jobTitle, double salary){
 
@@ -30,6 +35,7 @@ abstract class Employee{
         this.address = address;
         this.jobTitle = jobTitle;
         this.salary = salary;
+        this.performancePoints = 0.0;
     }
 
     public abstract double calculateBonus();
@@ -60,6 +66,46 @@ abstract class Employee{
         return this.salary;
     }
 
+    public double getPerformancePoints(){
+
+        return this.performancePoints;
+    }
+
+    public void setPerformancePoints(double score){
+
+        if(score < 0){
+
+            System.out.println("Invalid Score");
+            return;
+        
+        }else{
+        
+            this.performancePoints = score;
+
+        }
+    }
+
+    public String generatePerformanceReport(){
+
+        if(this.performancePoints >5){
+
+            return "Excellent";
+            
+        }else if(this.performancePoints > 4 && this.performancePoints <= 5){
+
+            return "Good";
+        
+        }else if(this.performancePoints >=3 && this.performancePoints <= 4){
+
+            return "Satisfactory";
+        
+        }else{
+
+            return "Bad";
+        }
+        
+    }
+    
     @Override
     public boolean equals(Object obj){
 
@@ -74,7 +120,7 @@ abstract class Employee{
         }
         Employee other = (Employee) obj;
         
-        if(this.salary == other.salary && this.name.equals(other.name) && this.address.equals(other.address) && this.jobTitle.equals(other.jobTitle)){
+        if(this.salary == other.salary && this.performancePoints == other.performancePoints && this.name.equals(other.name) && this.address.equals(other.address) && this.jobTitle.equals(other.jobTitle)){
 
             return true;
             
@@ -87,7 +133,7 @@ abstract class Employee{
     @Override
     public int hashCode(){
 
-        int uniqueCode = Objects.hash(this.name,this.address,this.jobTitle,this.salary);
+        int uniqueCode = Objects.hash(this.name,this.address,this.jobTitle,this.salary,this.performancePoints);
         return uniqueCode;
     }
 
