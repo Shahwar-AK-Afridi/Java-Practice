@@ -15,7 +15,7 @@ public class Main{
         System.out.println(p1.calculateBonus());
 
         System.out.println(m1.generatePerformanceReport());
-        m1.setPerformancePoints(10);
+        m1.setPerformancePoints(5);
         System.out.println(m1.generatePerformanceReport());
         
     }
@@ -43,6 +43,7 @@ abstract class Employee{
     public Employee(Employee other){
 
         this(other.name, other.address, other.jobTitle, other.salary);
+        this.performancePoints = other.performancePoints;
     }
 
     public String getName(){
@@ -73,7 +74,7 @@ abstract class Employee{
 
     public void setPerformancePoints(double score){
 
-        if(score < 0){
+        if(score < 0 || score > 5){
 
             System.out.println("Invalid Score");
             return;
@@ -87,15 +88,15 @@ abstract class Employee{
 
     public String generatePerformanceReport(){
 
-        if(this.performancePoints >5){
+        if(this.performancePoints > 4.5 && this.performancePoints <= 5.0){
 
             return "Excellent";
             
-        }else if(this.performancePoints > 4 && this.performancePoints <= 5){
+        }else if(this.performancePoints > 3.0 && this.performancePoints <= 4.5){
 
             return "Good";
         
-        }else if(this.performancePoints >=3 && this.performancePoints <= 4){
+        }else if(this.performancePoints >2.5 && this.performancePoints <= 3.0){
 
             return "Satisfactory";
         
