@@ -17,6 +17,13 @@ public class Main{
         System.out.println(m1.generatePerformanceReport());
         m1.setPerformancePoints(5);
         System.out.println(m1.generatePerformanceReport());
+
+        System.out.println(p1.manageProject("Main"));
+        System.out.println(p1.manageProject("Car"));
+        System.out.println(p1.manageProject("House"));
+        System.out.println(p1.manageProject("CLOCK"));
+        System.out.println(p1.manageProject("Bike"));
+        System.out.println(p1.manageProject("Yoyo"));
         
     }
 }
@@ -28,6 +35,7 @@ abstract class Employee{
     private String jobTitle;
     private double salary;
     private double performancePoints;
+    private int activeProjects;
     
     public Employee(String name, String address, String jobTitle, double salary){
 
@@ -36,14 +44,17 @@ abstract class Employee{
         this.jobTitle = jobTitle;
         this.salary = salary;
         this.performancePoints = 0.0;
+        this.activeProjects = 0;
     }
 
     public abstract double calculateBonus();
+    public abstract String manageProject(String project);
     
     public Employee(Employee other){
 
         this(other.name, other.address, other.jobTitle, other.salary);
         this.performancePoints = other.performancePoints;
+        this.activeProjects = other.activeProjects;
     }
 
     public String getName(){
@@ -86,6 +97,17 @@ abstract class Employee{
         }
     }
 
+    public int getActiveProjects(){
+
+        return this.activeProjects;
+    
+    }
+
+    public void setActiveProjects(){
+
+        this.activeProjects += 1;    
+    } 
+    
     public String generatePerformanceReport(){
 
         if(this.performancePoints > 4.5 && this.performancePoints <= 5.0){
@@ -121,7 +143,7 @@ abstract class Employee{
         }
         Employee other = (Employee) obj;
         
-        if(this.salary == other.salary && this.performancePoints == other.performancePoints && this.name.equals(other.name) && this.address.equals(other.address) && this.jobTitle.equals(other.jobTitle)){
+        if(this.salary == other.salary && this.performancePoints == other.performancePoints && this.activeProjects == other.activeProjects && this.name.equals(other.name) && this.address.equals(other.address) && this.jobTitle.equals(other.jobTitle)){
 
             return true;
             
@@ -134,14 +156,14 @@ abstract class Employee{
     @Override
     public int hashCode(){
 
-        int uniqueCode = Objects.hash(this.name,this.address,this.jobTitle,this.salary,this.performancePoints);
+        int uniqueCode = Objects.hash(this.name,this.address,this.jobTitle,this.salary,this.performancePoints, this.activeProjects);
         return uniqueCode;
     }
 
     @Override
     public String toString(){
 
-        String representation = "Name: %s, Address: %s, Job Title: %s, Salary: %.2f".formatted(this.name, this.address, this.jobTitle, this.salary);
+        String representation = "Name: %s, Address: %s, Job Title: %s, Salary: %.2f, Active Projects: %d".formatted(this.name, this.address, this.jobTitle, this.salary, this.activeProjects);
 
         return representation;
     }
@@ -149,14 +171,39 @@ abstract class Employee{
 
 class Manager extends Employee{
 
+    private static final int maxProjects;
+
+    static{
+        
+        maxProjects = 5;
+        
+    }
+
     public Manager(String name, String address, String jobTitle, double salary){
 
-        super(name, address, jobTitle, salary);        
+        super(name, address, jobTitle, salary);      
+        
     }
 
     public Manager(Manager other){
 
         super(other);
+    }
+
+    @Override
+    public String manageProject(String project){
+
+        String message;
+        if(this.getActiveProjects() >= Manager.maxProjects){
+
+            message = "Cannot assign %s to Manager: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Manager.maxProjects);
+        
+        }else{
+        
+            setActiveProjects();
+            message = "Project %s is assigned to Manager: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Manager.maxProjects);
+        }
+        return message;
     }
 
     @Override
@@ -170,6 +217,14 @@ class Manager extends Employee{
 
 class Developer extends Employee{
 
+    private static final int maxProjects;
+
+    static{
+        
+        maxProjects = 3;
+        
+    }
+
     public Developer(String name, String address, String jobTitle, double salary){
 
         super(name, address, jobTitle, salary);
@@ -179,6 +234,22 @@ class Developer extends Employee{
     public Developer(Developer other){
 
         super(other);
+    }
+    
+    @Override
+    public String manageProject(String project){
+
+        String message;
+        if(this.getActiveProjects() >= Developer.maxProjects){
+
+            message = "Cannot assign %s to Developer: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Developer.maxProjects);
+        
+        }else{
+        
+            setActiveProjects();
+            message = "Project %s is assigned to Developer: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Developer.maxProjects);
+        }
+        return message;
     }
     
     @Override
@@ -192,6 +263,14 @@ class Developer extends Employee{
 
 class Programmer extends Employee{
 
+    private static final int maxProjects;
+
+    static{
+        
+        maxProjects = 2;
+        
+    }
+    
     public Programmer(String name, String address, String jobTitle, double salary){
 
         super(name, address, jobTitle, salary);
@@ -203,6 +282,21 @@ class Programmer extends Employee{
         super(other);
     }
 
+    @Override
+    public String manageProject(String project){
+
+        String message;
+        if(this.getActiveProjects() >= Programmer.maxProjects){
+
+            message = "Cannot assign %s to Programmer: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Programmer.maxProjects);
+        
+        }else{
+        
+            setActiveProjects();
+            message = "Project %s is assigned to Programmer: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Programmer.maxProjects);
+        }
+        return message;
+    }
     
     @Override
     public double calculateBonus(){
