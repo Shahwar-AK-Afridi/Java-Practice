@@ -1,5 +1,13 @@
 /*
 Write a Java program that creates a class hierarchy for employees of a company. The base class should be Employee, with subclasses Manager, Developer, and Programmer. Each subclass should have properties such as name, address, salary, and job title. Implement methods for calculating bonuses, generating performance reports, and managing projects.+
+
+->Write a Java program where the "Manager" subclass calculates employee bonuses based on performance ratings.
+
+->Write a Java program where the "Developer" subclass tracks completed projects and pending deadlines.
+
+->Write a Java program where the "Programmer" subclass implements a method to log daily coding hours.
+
+->Write a Java program where the "Employee" class introduces a mentorship program for new hires.
 */
 import java.util.*;
 public class Main{
@@ -7,8 +15,8 @@ public class Main{
     public static void main(String args[]){
 
         Manager m1 = new Manager("Smith", "bca", "Salas Manager",1000);
-        Developer d1 = new Developer("Jasd", "ABC", "Developer",1000);
-        Programmer p1 = new Programmer("Jasd", "ABC", "Programmer",1000);
+        Developer d1 = new Developer("Jasd", "ABC", "Developer",1000,"Java");
+        Programmer p1 = new Programmer("Jasd", "ABC", "Programmer",1000,"Python");
         
         System.out.println(m1.calculateBonus());
         System.out.println(d1.calculateBonus());
@@ -46,9 +54,6 @@ abstract class Employee{
         this.performancePoints = 0.0;
         this.activeProjects = 0;
     }
-
-    public abstract double calculateBonus();
-    public abstract String manageProject(String project);
     
     public Employee(Employee other){
 
@@ -56,6 +61,9 @@ abstract class Employee{
         this.performancePoints = other.performancePoints;
         this.activeProjects = other.activeProjects;
     }
+
+    public abstract double calculateBonus();
+    public abstract String manageProject(String project);
 
     public String getName(){
 
@@ -217,37 +225,40 @@ class Manager extends Employee{
 
 class Developer extends Employee{
 
-    private static final int maxProjects;
+    private static final int MAX_PROJECTS;
 
     static{
         
-        maxProjects = 3;
+        MAX_PROJECTS = 3;
         
     }
 
-    public Developer(String name, String address, String jobTitle, double salary){
+    private String programmingLanguage;
+    
+    public Developer(String name, String address, String jobTitle, double salary, String programmingLanguage){
 
         super(name, address, jobTitle, salary);
-        
+        this.programmingLanguage = programmingLanguage;
     }
 
     public Developer(Developer other){
 
         super(other);
+        this.programmingLanguage = other.programmingLanguage;
     }
     
     @Override
     public String manageProject(String project){
 
         String message;
-        if(this.getActiveProjects() >= Developer.maxProjects){
+        if(this.getActiveProjects() >= Developer.MAX_PROJECTS){
 
-            message = "Cannot assign %s to Developer: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Developer.maxProjects);
+            message = "Cannot assign %s to Developer: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Developer.MAX_PROJECTS);
         
         }else{
         
             setActiveProjects();
-            message = "Project %s is assigned to Developer: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Developer.maxProjects);
+            message = "Project %s is assigned to Developer: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Developer.MAX_PROJECTS);
         }
         return message;
     }
@@ -259,9 +270,45 @@ class Developer extends Employee{
         return bonus;
         
     }
+
+      @Override
+    public boolean equals(Object obj){
+
+        if(!(super.equals(obj))){
+
+            return false;
+        
+        }else{
+            Developer other = (Developer) obj;
+            if(this.programmingLanguage.equals(other.programmingLanguage)){
+
+                return true;
+            
+            }else{
+
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public int hashCode(){
+            
+        int uniqueCode = super.hashCode() + Objects.hash(this.programmingLanguage);
+        return uniqueCode;
+     
+    }
+
+    @Override
+    public String toString(){
+
+        String representation = super.toString() + ", Programming Language: %s".formatted(this.programmingLanguage);
+
+        return representation;
+    }
 }
 
-class Programmer extends Employee{
+class Programmer extends Developer{
 
     private static final int maxProjects;
 
@@ -271,9 +318,9 @@ class Programmer extends Employee{
         
     }
     
-    public Programmer(String name, String address, String jobTitle, double salary){
+    public Programmer(String name, String address, String jobTitle, double salary, String programmingLanguage){
 
-        super(name, address, jobTitle, salary);
+        super(name, address, jobTitle, salary, programmingLanguage);
         
     }
 
