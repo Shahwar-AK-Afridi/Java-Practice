@@ -179,11 +179,11 @@ abstract class Employee{
 
 class Manager extends Employee{
 
-    private static final int maxProjects;
+    private static final int MAX_PROJECTS;
 
     static{
         
-        maxProjects = 5;
+        MAX_PROJECTS = 5;
         
     }
 
@@ -202,14 +202,14 @@ class Manager extends Employee{
     public String manageProject(String project){
 
         String message;
-        if(this.getActiveProjects() >= Manager.maxProjects){
+        if(this.getActiveProjects() >= Manager.MAX_PROJECTS){
 
-            message = "Cannot assign %s to Manager: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Manager.maxProjects);
+            message = "Cannot assign %s to Manager: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Manager.MAX_PROJECTS);
         
         }else{
         
             setActiveProjects();
-            message = "Project %s is assigned to Manager: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Manager.maxProjects);
+            message = "Project %s is assigned to Manager: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Manager.MAX_PROJECTS);
         }
         return message;
     }
@@ -310,11 +310,11 @@ class Developer extends Employee{
 
 class Programmer extends Developer{
 
-    private static final int maxProjects;
+    private static final int MAX_PROJECTS;
 
     static{
         
-        maxProjects = 2;
+        MAX_PROJECTS = 2;
         
     }
     
@@ -333,14 +333,14 @@ class Programmer extends Developer{
     public String manageProject(String project){
 
         String message;
-        if(this.getActiveProjects() >= Programmer.maxProjects){
+        if(this.getActiveProjects() >= Programmer.MAX_PROJECTS){
 
-            message = "Cannot assign %s to Programmer: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Programmer.maxProjects);
+            message = "Cannot assign %s to Programmer: %s, as maximum projects are already assigned %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Programmer.MAX_PROJECTS);
         
         }else{
         
             setActiveProjects();
-            message = "Project %s is assigned to Programmer: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Programmer.maxProjects);
+            message = "Project %s is assigned to Programmer: %s, now total assigned projects are %d/%d".formatted(project, this.getName(), this.getActiveProjects(), Programmer.MAX_PROJECTS);
         }
         return message;
     }
