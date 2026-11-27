@@ -198,6 +198,38 @@ class Manager extends Employee{
         super(other);
     }
 
+    public double calculateBonus(Employee other){
+
+        if(other == null){
+
+            return;
+        }
+
+        String rating = other.generatePerformanceReport();
+
+        if(rating != null && rating.equals("Excellent")){
+            
+            
+            
+        }else if(rating != null && rating.equals("Good")){
+
+
+            
+        }else if(rating != null && rating.equals("Satisfactory")){
+
+
+            
+        }else if(rating != null && rating.equals("Bad")){
+
+
+            
+        }else{
+            
+            
+            
+        }
+    }
+
     @Override
     public String manageProject(String project){
 
